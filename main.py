@@ -50,20 +50,11 @@ def main():
     formatted_hashtags = " ".join(filtered_hashtags)
     print(f"  ✅ ハッシュタグを準備（フィルター後）: {formatted_hashtags}")
 
-    app_name = app_info.get('アプリ名', 'このアプリ')
-    
+    # ★★★ ツイート本文の組み立てを修正 ★★★
     text = f"""{tweet_parts.get('kyokan_tweet', '')}
-
-『{app_name}』を使ってみた私の正直レポ✍️
 
 【ココが良い！💖】
 {tweet_parts.get('good_point', '特におすすめのポイントがあります！')}
-
-【注意したいかも…⚠️】
-{tweet_parts.get('caution_point', '人によっては合わない部分もあるかも。')}
-
-個人的な感想だけど、参考になると嬉しいな〜！
-みんなはどう思う？🤔
 
 🔗 {short_url}
 
@@ -71,14 +62,11 @@ def main():
 """
     print("  ✅ 投稿テキストを作成しました。")
 
-    # ★★★ ここから修正箇所 ★★★
-    # 最終的な文字数を確認し、もし超えていたら警告を出す
     final_length = len(text)
     if final_length > 140:
         print(f"  ⚠️ 警告: 生成されたテキストが140文字を超えています。（現在 {final_length} 文字）")
     else:
         print(f"  ✅ 文字数チェックOK。（現在 {final_length} 文字）")
-    # ★★★ 修正箇所ここまで ★★★
     
     print("--- 生成された投稿 ---")
     print(text)
