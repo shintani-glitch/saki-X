@@ -44,18 +44,22 @@ def main():
     
     media_id = upload_image(api_v1, app_info.get('画像URL'))
 
-    hashtags = tweet_parts.get('hashtags', [])
+    # ★★★ ハッシュタグの処理を修正 ★★★
+    hashtags_from_ai = tweet_parts.get('hashtags', [])
     banned_tags = ['#r-18', '#r18']
-    filtered_hashtags = [tag for tag in hashtags if tag.lower() not in banned_tags]
-    formatted_hashtags = " ".join(filtered_hashtags)
-    print(f"  ✅ ハッシュタグを準備（フィルター後）: {formatted_hashtags}")
+    filtered_hashtags = [tag for tag in hashtags_from_ai if tag.lower() not in banned_tags]
+    # #PRを先頭に固定し、AIが生成したタグを結合
+    formatted_hashtags = "#PR " + " ".join(filtered_hashtags)
+    print(f"  ✅ ハッシュタグを準備: {formatted_hashtags}")
 
     # ★★★ ツイート本文の組み立てを修正 ★★★
-    text = f"""{tweet_parts.get('kyokan_tweet', '')}
+    app_name = app_info.get('アプリ名', 'このアプリ')
+    text = f"""💖『{app_name}』のおすすめポイント💖
 
-【ココが良い！💖】
-{tweet_parts.get('good_point', '特におすすめのポイントがあります！')}
+✅ {tweet_parts.get('good_point_1', 'おすすめポイントがあります！')}
+✅ {tweet_parts.get('good_point_2', '他にも魅力がたくさん！')}
 
+詳しくはこちら👇
 🔗 {short_url}
 
 {formatted_hashtags}
@@ -74,7 +78,7 @@ def main():
 
     post_tweet(client_v2, text, media_id)
 
-    print(f"\n--- 処理完了: {datetime.now(pytz.timezone('Asia/Tokyo')).strftime('%Y-%m-%d %H:%M:%S')} ---")
+    print(f"  --- 処理完了: {datetime.now(pytz.timezone('Asia/Tokyo')).strftime('%Y-%m-%d %H:%M:%S')} ---")
 
 
 if __name__ == '__main__':
