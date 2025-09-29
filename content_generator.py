@@ -19,7 +19,7 @@ def generate_tweet_parts(app_info):
         genai.configure(api_key=os.getenv('GEMINI_API_KEY'))
         
         model = genai.GenerativeModel(
-            'gemini-1.5-flash',
+            'gemini-2.5-flash',
             generation_config=generation_config
         )
 
